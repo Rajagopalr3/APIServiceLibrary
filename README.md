@@ -12,6 +12,20 @@ import apiservice module into your project and add the following code for api co
 
 Implement ActivityResponseListener on activity for getting success & failure response from server
 
+# Gradle Depedencies :
+
+```
+
+dependencies {
+    compile 'com.libRG.volley:apiService:1.0'
+}
+
+Note : use "implementation" instead of "compile" in dependencies section.
+       "compile" is deprecated in android studio 3+ versions. 
+
+
+```
+
 ```
 
 public class MainActivity extends AppCompatActivity implements ActivityResponseListener{
