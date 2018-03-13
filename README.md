@@ -20,6 +20,13 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //Setting authentication tokes for request - set this code into base activity
+
+        //HashMap<String, String> headerParams = new HashMap<>();
+        //headerParams.put("key", "value");
+        //ApiService.setHeaders(headerParams);
+        
         sendRequest();
     }
 
