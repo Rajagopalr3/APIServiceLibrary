@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
         ApiService.StringRequest(this, 1, url, null, "GET_ADDRESS", true);
     }
     
+  public void setImage(String imageURL, ImageView imageView) {
+  
+        ApiService.getImageLoader(this).get(imageURL, ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher_round,                                                                                                  R.mipmap.ic_launcher));
+ }
+    
     
   @Override
     public <T> void onResponse(T response, String tagName) {
