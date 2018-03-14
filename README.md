@@ -10,7 +10,10 @@
    3. Success and Failure are captured in Logcats(Log.Info)  
    4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
    5. Used API TAGS to identify multiple requests from single activity.
-   
+  
+  
+  ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
+  
 # Usage
 
 Step 1:
