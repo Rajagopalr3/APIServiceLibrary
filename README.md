@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        //Setting authentication tokes for request - set this code into base activity
+        //Setting authentication tokens for request - set this code into base activity
 
         //HashMap<String, String> headerParams = new HashMap<>();
         //headerParams.put("key", "value");
@@ -105,6 +105,14 @@ APIServiceLibrary Provides variety of implementations of Request.
                            (if JSON request pass json input else pass formdata)
    5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
    6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
+   
+   
+ # Setting authentication tokens for request - set this code at once
+ 
+        HashMap<String, String> headerParams = new HashMap<>();
+        headerParams.put("key", "value");
+        ApiService.setHeaders(headerParams);
+   
 
 ```
 
