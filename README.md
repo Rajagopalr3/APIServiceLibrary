@@ -120,6 +120,25 @@ APIServiceLibrary Provides variety of implementations of Request.
    I have optimized the API request code to reduce the code implementation for api call. I used volley for server commmunication.
    Thanks to Volley
 
+ # License
+ 
+ ```
+ 
+Copyright 2017 Rajagopal
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ 
+```  
 
 
   
