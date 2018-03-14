@@ -98,13 +98,13 @@ APIServiceLibrary Provides variety of implementations of Request.
     
    StringRequest & JSONObjectRequest method Params :
     
-   1. this --> It is used receive the callback from server response.(passing context to intialize the request)
-   2. 0 or 1 --> This is request type either POST or GET etc.(should pass integer values)
-   3. url --> This is request url of server
-   4. input  --> Pass request input parameters based on method types(GET or POST, if GET method pass null)
-                 (if JSON request pass json input else pass formdata)
-   5. GET_ADDRESS --> This is Request TAG to identify and validate the specific response from server
-   6. true --> This is used to show progress bar when getting data from server.(pass false if not required)
+   1. this           -->   It is used receive the callback from server response.(passing context to intialize the request)
+   2. 0 or 1         -->   This is request type either POST or GET etc.(should pass integer values)
+   3. url            -->   This is request url of server
+   4. input          -->   Pass request input parameters based on method types(GET or POST, if GET method pass null)
+                           (if JSON request pass json input else pass formdata)
+   5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
+   6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
 
 ```
 
