@@ -1,23 +1,34 @@
 # Minimized API Service Library
-  This is a optimized custom library for server communication. References taken from Official VOLLEY library
+   This is a optimized custom library for server communication. References taken from Official VOLLEY library.
+   We can reduce the code for making api calls when using this library. All references are taken from Google's Official Volley.
+   
   
-  
-# Intro
-  We can reduce the code for making api calls when using this library. All references are taken from Google's Official Volley.
-  thanks to Volley
-  
+# Features:
+
+   1. Added custom listeners to handle the responses in easy way  
+   2. Added Progress bar when getting response from server.(can disable by passing false in request parameter)  
+   3. Success and Failure are captured in Logcats(Log.Info)  
+   4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
+   5. Used API TAGS to identify multiple requests from single activity.
+   
 # Usage
 
-import apiservice module into your project and add the following code for api communication.
+Step 1:
+ import apiservice module into your project and add the following code for api communication.
 
-Implement ActivityResponseListener on activity for getting success & failure response from server
+ [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservice-1.1.aar
+
+Step 2:
+ Implement ActivityResponseListener on activity for getting success & failure response from server
+
+(or)
 
 # Gradle Depedencies :
 
 ```
 
 dependencies {
-    compile 'com.libRG.volley:apiService:1.0'
+    compile 'com.libRG.volley:apiservice:1.1'
 }
 
 Note : use "implementation" instead of "compile" in dependencies section.
@@ -25,6 +36,8 @@ Note : use "implementation" instead of "compile" in dependencies section.
 
 
 ```
+
+# Implementation Steps in Activity File
 
 ```
 
@@ -67,6 +80,39 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
 
 
 ```
+
+APIServiceLibrary Provides variety of implementations of Request.
+
+1. StringRequest  
+2. JsonObjectRequest  
+3. MultiPartRequest  
+4. ImageRequest  
+
+# Explanation of code:
+
+```
+   HashMap<String, String> input  =new HashMap<String, String>() 
+   input.put("key", "value");
+   
+   ApiService.StringRequest(this, 1, url, input, "GET_ADDRESS", true);
+    
+   StringRequest & JSONObjectRequest method Params :
+    
+   1. this --> It is used receive the callback from server response.(passing context to intialize the request)
+   2. 0 or 1 --> This is request type either POST or GET etc.(should pass integer values)
+   3. url --> This is request url of server
+   4. input  --> Pass request input parameters based on method types(GET or POST, if GET method pass null)
+                 (if JSON request pass json input else pass formdata)
+   5. GET_ADDRESS --> This is Request TAG to identify and validate the specific response from server
+   6. true --> This is used to show progress bar when getting data from server.(pass false if not required)
+
+```
+
+# References taken from Google's Volley Library
+   I have optimized the API request code to reduce the code implementation for api call. I used volley for server commmunication.
+   Thanks to Volley
+
+
 
   
   
