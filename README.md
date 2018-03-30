@@ -19,7 +19,7 @@
 Step 1:
  import apiservice module into your project and add the following code for api communication.
 
- [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.0.aar
+ [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.1.aar
 
 Step 2:
  Implement ActivityResponseListener on activity for getting success & failure response from server
@@ -31,7 +31,7 @@ Step 2:
 ```
 
 dependencies {
-    compile 'com.libRG.volley:apiservice:1.1'
+    compile 'com.libRG.volley:apiservices:1.1'
 }
 
 Note : use "implementation" instead of "compile" in dependencies section.
