@@ -93,6 +93,7 @@ APIServiceLibrary Provides variety of implementations of Request.
 
 1. StringRequest  
 2. JsonObjectRequest  
+3. JsonArrayRequest
 3. MultiPartRequest  
 4. ImageRequest  
 
