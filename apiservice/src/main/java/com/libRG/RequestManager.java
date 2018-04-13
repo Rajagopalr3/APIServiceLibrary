@@ -8,7 +8,7 @@ import com.libRG.volley.Request;
 import com.libRG.volley.RequestQueue;
 import com.libRG.volley.toolbox.Volley;
 
-class RequestManager {
+public class RequestManager {
 
     // An Singleton instance of the class for accessing in other places
     @SuppressLint("StaticFieldLeak")
@@ -28,7 +28,7 @@ class RequestManager {
     /**
      * @return Application instance
      */
-    static synchronized RequestManager getInstance(Context context) {
+    public static synchronized RequestManager getInstance(Context context) {
         if (reqInstance == null) {
             reqInstance = new RequestManager(context);
         }
@@ -48,7 +48,7 @@ class RequestManager {
     /**
      * Add a specified request to the volley RequestQueue if tag is specified,then it is used else Default TAG will be used
      */
-    <T> void addToRequestQueue(Request<T> req, String tag) {
+   public  <T> void addToRequestQueue(Request<T> req, String tag) {
         if (TextUtils.isEmpty(tag))
             tag = TAG_NAME;
         req.setTag(tag);
@@ -58,7 +58,7 @@ class RequestManager {
     /**
      * Add a request to the global queue with the default tag
      */
-    private <T> void addToRequestQueue(Request<T> req) {
+    public  <T> void addToRequestQueue(Request<T> req) {
         req.setTag(TAG_NAME);
         getRequestQueue().add(req);
     }
@@ -66,7 +66,7 @@ class RequestManager {
     /**
      * Cancel all pending request by the specified tag
      */
-    private void cancelPendingRequest(Object tag) {
+    public  void cancelPendingRequest(Object tag) {
         if (requestQueue != null)
             requestQueue.cancelAll(tag);
     }
