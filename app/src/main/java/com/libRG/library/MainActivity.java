@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
 
         setImageFromVolley(imgURL, img);
         setImageFromVolleyN(imgURL, img1);
+
     }
 
     public void setImageFromVolley(String imageURL, ImageView imageView) {
