@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     }
 
 
-    private void sendRequest() { // tag is used to identify the API requests - when multiple requests are used.
+    private void sendRequest() { // tag is used to identify the API requests - when multiple requests are used in activity.
         String url = "http://maps.googleapis.com/maps/api/geocode/json?address=560078";
         ApiService.StringRequest(this, 1, url, null, "GET_ADDRESS", true);
     }
