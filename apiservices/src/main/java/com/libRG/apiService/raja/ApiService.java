@@ -178,7 +178,7 @@ public class ApiService {
         params = param;
     }
 
-    public HashMap<String, String> getHeaders() {
+    public static HashMap<String, String> getHeaders() {
         return params;
     }
 
