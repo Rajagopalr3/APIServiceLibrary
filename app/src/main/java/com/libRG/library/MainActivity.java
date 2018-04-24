@@ -4,14 +4,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.libRG.apiService.raja.ActivityResponseListener;
 import com.libRG.apiService.raja.ApiService;
+import com.libRG.apiService.raja.RequestManager;
+import com.libRG.apiService.volley.Response;
+import com.libRG.apiService.volley.VolleyError;
+import com.libRG.apiService.volley.toolbox.JsonObjectRequest;
 import com.libRG.apiService.volley.toolbox.NetworkImageView;
 import com.libRG.apiService.volley.toolbox.ImageLoader;
+import com.libRG.apiService.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
@@ -21,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
 
     ImageView img, img1;
     String imgURL = "http://www.wallpapereast.com/static/images/nature-hd-wallpapers-super-hd_54OVdsW.jpg";
+    String url = "http://maps.googleapis.com/maps/api/geocode/json?address=560078";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
         //HashMap<String, String> headerParams = new HashMap<>();
         //headerParams.put("key", "value");
         //ApiService.setHeaders(headerParams);
+
 
         setImageFromVolley(imgURL, img);
         setImageFromVolleyN(imgURL, img1);
@@ -51,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
 
 
     private void sendRequest() { // tag is used to identify the API requests - when multiple requests are used.
-        String url = "http://maps.googleapis.com/maps/api/geocode/json?address=560078";
+
 
         ApiService.StringRequest(this, 1, url, new HashMap<String, String>(), "GET_ADDRESS", true);
     }

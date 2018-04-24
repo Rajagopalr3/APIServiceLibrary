@@ -185,7 +185,7 @@ public class ApiService {
     /**
      * Method give the default retryPolicy
      */
-    private static RetryPolicy getRetryPolicy() {
+    public static RetryPolicy getRetryPolicy() {
         return new DefaultRetryPolicy(SOCKET_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     }
 
@@ -211,7 +211,7 @@ public class ApiService {
         }
     }
 
-    private Dialog showCustomDialog(final Context context) {
+    public Dialog showCustomDialog(final Context context) {
         final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
