@@ -6,7 +6,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.libRG.apiService.raja.ActivityResponseListener;
 import com.libRG.apiService.raja.ApiService;
 import com.libRG.apiService.volley.toolbox.NetworkImageView;
 import com.libRG.apiService.volley.toolbox.ImageLoader;
@@ -15,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityResponseListener {
 
     ImageView img, img1;
     String imgURL = "http://www.wallpapereast.com/static/images/nature-hd-wallpapers-super-hd_54OVdsW.jpg";
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         ApiService.StringRequest(this, 1, url, new HashMap<String, String>(), "GET_ADDRESS", true);
     }
-/*
+
     @Override
     public <T> void onResponse(T response, String tagName) {
         if (tagName.equals("GET_ADDRESS")) {
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onError(Object error, String tagName) {
         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-    }*/
+    }
 
 
     private void validateResponse(String response) {
