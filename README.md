@@ -31,11 +31,8 @@ Step 2:
 ```
 
 dependencies {
-    compile 'com.libRG.volley:apiservices:1.2'
+    implementation 'com.libRG.volley:apiservices:1.2'
 }
-
-Note : use "implementation" instead of "compile" in dependencies section.
-       "compile" is deprecated in android studio 3+ versions. 
 
 
 ```
