@@ -19,7 +19,7 @@
 Step 1:
  import apiservice module into your project and add the following code for api communication.
 
- [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.2.aar
+ [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.3.aar
 
 Step 2:
  Implement ActivityResponseListener on activity for getting success & failure response from server
