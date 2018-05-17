@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     
   public void setImage(String imageURL, ImageView imageView) {
   
-        ApiService.getImageLoader(this).get(imageURL, ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher_round,                                                                                                  R.mipmap.ic_launcher));
+        ApiService.getImageLoader(this).get(imageURL, ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher_round,R.mipmap.ic_launcher));
  }
     
     
   @Override
-    public <T> void onResponse(T response, String tagName, JSONObject responseHeaders) {//responseHeaders is used to catch the network                                                                                              header params like auth key and value
+    public <T> void onResponse(T response, String tagName, JSONObject responseHeaders) {//responseHeaders is used to catch the network header params like auth key and value
         
         if (tagName.equals("GET_ADDRESS")) {
         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
