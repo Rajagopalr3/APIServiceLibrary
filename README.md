@@ -31,7 +31,7 @@ Step 2:
 ```
 
 dependencies {
-    implementation 'com.libRG.volley:apiservices:1.2'
+    implementation 'com.libRG.volley:apiservices:1.3'
 }
 
 
