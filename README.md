@@ -5,11 +5,12 @@
   
 # Features:
 
-   1. Added custom listeners to handle the responses in easy way  
+   1. Added custom listeners to handle the responses in easy way
    2. Added Progress bar when getting response from server.(can disable by passing false in request parameter)  
    3. Success and Failure are captured in Logcats(Log.Info)  
    4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
    5. Used API TAGS to identify multiple requests from single activity.
+   6. Added ResponseHeaders params in response
   
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
@@ -69,10 +70,12 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     
     
   @Override
-    public <T> void onResponse(T response, String tagName) {
+    public <T> void onResponse(T response, String tagName, JSONObject responseHeaders) {//responseHeaders is used to catch the network                                                                                              header params like auth key and value
+        
         if (tagName.equals("GET_ADDRESS")) {
         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
         }
+        
     }
 
     @Override
