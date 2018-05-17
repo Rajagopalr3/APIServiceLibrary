@@ -23,6 +23,8 @@ import com.libRG.apiService.volley.Response;
 import com.libRG.apiService.volley.Response.ErrorListener;
 import com.libRG.apiService.volley.Response.Listener;
 
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -34,9 +36,11 @@ public class StringRequest extends Request<String> {
      * Lock to guard mListener as it is cleared on cancel() and read on delivery.
      */
     private final Object mLock = new Object();
+    private JSONObject responseHeaders;
 
     // @GuardedBy("mLock")
     private Listener<String> mListener;
+
 
     /**
      * Creates a new request with the given method.
@@ -50,7 +54,9 @@ public class StringRequest extends Request<String> {
                          ErrorListener errorListener) {
         super(method, url, errorListener);
         mListener = listener;
+
     }
+
 
     /**
      * Creates a new GET request.
@@ -72,20 +78,25 @@ public class StringRequest extends Request<String> {
     }
 
     @Override
-    protected void deliverResponse(String response) {
+    protected void deliverResponse(String response, NetworkResponse networkResponse) {
         Listener<String> listener;
         synchronized (mLock) {
             listener = mListener;
+        } try {
+            responseHeaders = new JSONObject(networkResponse.headers);
+        } catch (Exception ignored) {
         }
         if (listener != null) {
-            listener.onResponse(response);
+            listener.onResponse(response, responseHeaders);
         }
     }
+
 
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         String parsed;
         try {
+            responseHeaders = new JSONObject(response.headers);
             parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
         } catch (UnsupportedEncodingException e) {
             parsed = new String(response.data);

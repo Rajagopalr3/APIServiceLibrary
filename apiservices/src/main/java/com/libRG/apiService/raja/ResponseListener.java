@@ -3,12 +3,15 @@ package com.libRG.apiService.raja;
 import android.app.Dialog;
 import android.util.Log;
 
+import com.libRG.apiService.BuildConfig;
 import com.libRG.apiService.volley.Response;
+
+import org.json.JSONObject;
 
 public class ResponseListener<T> implements Response.Listener<T> {
 
     private ActivityResponseListener activityReference;
-    private String requestTag;
+    private String requestTag = "";
     private Dialog dialog = null;
 
     ResponseListener(ActivityResponseListener rhelper, String tag, Dialog pd) {
@@ -18,12 +21,13 @@ public class ResponseListener<T> implements Response.Listener<T> {
     }
 
     @Override
-    public void onResponse(T result) {
-        Log.i(requestTag, result != null ? result.toString() : "null");
+    public void onResponse(T result, JSONObject responseHeaders) {
+        if (BuildConfig.DEBUG)
+            Log.i(requestTag, result != null ? result.toString() : "null");
         if (activityReference != null)
-            activityReference.onResponse(result, requestTag);
+            activityReference.onResponse(result, requestTag, responseHeaders);
         if (dialog != null && dialog.isShowing())
             dialog.dismiss();
-
     }
+
 }

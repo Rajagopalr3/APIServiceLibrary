@@ -16,6 +16,8 @@
 
 package com.libRG.apiService.volley;
 
+import org.json.JSONObject;
+
 /**
  * Encapsulates a parsed response for delivery.
  *
@@ -23,13 +25,19 @@ package com.libRG.apiService.volley;
  */
 public class Response<T> {
 
-    /** Callback interface for delivering parsed responses. */
+    /**
+     * Callback interface for delivering parsed responses.
+     */
     public interface Listener<T> {
-        /** Called when a response is received. */
-        void onResponse(T response);
+        /**
+         * Called when a response is received.
+         */
+        void onResponse(T response, JSONObject responseHeaders);
     }
 
-    /** Callback interface for delivering error responses. */
+    /**
+     * Callback interface for delivering error responses.
+     */
     public interface ErrorListener {
         /**
          * Callback method that an error has been occurred with the
@@ -38,7 +46,9 @@ public class Response<T> {
         void onErrorResponse(VolleyError error);
     }
 
-    /** Returns a successful response containing the parsed result. */
+    /**
+     * Returns a successful response containing the parsed result.
+     */
     public static <T> Response<T> success(T result, Cache.Entry cacheEntry) {
         return new Response<T>(result, cacheEntry);
     }
@@ -51,16 +61,24 @@ public class Response<T> {
         return new Response<T>(error);
     }
 
-    /** Parsed response, or null in the case of error. */
+    /**
+     * Parsed response, or null in the case of error.
+     */
     public final T result;
 
-    /** Cache metadata for this response, or null in the case of error. */
+    /**
+     * Cache metadata for this response, or null in the case of error.
+     */
     public final Cache.Entry cacheEntry;
 
-    /** Detailed error information if <code>errorCode != OK</code>. */
+    /**
+     * Detailed error information if <code>errorCode != OK</code>.
+     */
     public final VolleyError error;
 
-    /** True if this response was a soft-expired one and a second one MAY be coming. */
+    /**
+     * True if this response was a soft-expired one and a second one MAY be coming.
+     */
     public boolean intermediate = false;
 
     /**

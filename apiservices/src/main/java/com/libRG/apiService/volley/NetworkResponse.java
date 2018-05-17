@@ -96,7 +96,7 @@ public class NetworkResponse {
     }
 
     private NetworkResponse(int statusCode, byte[] data, Map<String, String> headers,
-            List<Header> allHeaders, boolean notModified, long networkTimeMs) {
+                            List<Header> allHeaders, boolean notModified, long networkTimeMs) {
         this.statusCode = statusCode;
         this.data = data;
         this.headers = headers;

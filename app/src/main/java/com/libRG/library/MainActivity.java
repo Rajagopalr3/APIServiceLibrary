@@ -66,11 +66,10 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     }
 
     @Override
-    public <T> void onResponse(T response, String tagName) {
+    public <T> void onResponse(T response, String tagName, JSONObject responseHeaders) {
         if (tagName.equals("GET_ADDRESS")) {
             validateResponse(response.toString());
         }
-
     }
 
     @Override

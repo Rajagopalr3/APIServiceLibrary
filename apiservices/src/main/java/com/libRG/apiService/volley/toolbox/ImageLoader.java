@@ -22,11 +22,12 @@ import android.os.Looper;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-
 import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.RequestQueue;
 import com.libRG.apiService.volley.Response;
 import com.libRG.apiService.volley.VolleyError;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -270,7 +271,7 @@ public class ImageLoader {
                                                ScaleType scaleType, final String cacheKey) {
         return new ImageRequest(requestUrl, new Response.Listener<Bitmap>() {
             @Override
-            public void onResponse(Bitmap response) {
+            public void onResponse(Bitmap response, JSONObject responseHeaders) {
                 onGetImageSuccess(cacheKey, response);
             }
         }, maxWidth, maxHeight, scaleType, Config.RGB_565, new Response.ErrorListener() {

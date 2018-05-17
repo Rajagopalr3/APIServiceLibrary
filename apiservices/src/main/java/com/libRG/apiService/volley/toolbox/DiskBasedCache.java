@@ -19,7 +19,6 @@ package com.libRG.apiService.volley.toolbox;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
-
 import com.libRG.apiService.volley.Cache;
 import com.libRG.apiService.volley.Header;
 import com.libRG.apiService.volley.VolleyLog;

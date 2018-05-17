@@ -21,7 +21,6 @@ import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.Header;
 import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.Request.Method;
-import com.libRG.apiService.volley.Request.Priority;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

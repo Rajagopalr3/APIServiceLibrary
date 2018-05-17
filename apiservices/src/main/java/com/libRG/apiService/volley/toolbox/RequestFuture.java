@@ -21,6 +21,8 @@ import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.Response;
 import com.libRG.apiService.volley.VolleyError;
 
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -139,7 +141,7 @@ public class RequestFuture<T> implements Future<T>, Response.Listener<T>,
     }
 
     @Override
-    public synchronized void onResponse(T response) {
+    public synchronized void onResponse(T response, JSONObject responseHeaders) {
         mResultReceived = true;
         mResult = response;
         notifyAll();

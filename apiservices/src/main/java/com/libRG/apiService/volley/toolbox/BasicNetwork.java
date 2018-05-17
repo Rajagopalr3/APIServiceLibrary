@@ -18,7 +18,6 @@ package com.libRG.apiService.volley.toolbox;
 
 import android.os.SystemClock;
 
-
 import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.Cache;
 import com.libRG.apiService.volley.Cache.Entry;

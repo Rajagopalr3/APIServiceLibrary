@@ -55,22 +55,22 @@ public class ExecutorDelivery implements ResponseDelivery {
     }
 
     @Override
-    public void postResponse(Request<?> request, Response<?> response) {
-        postResponse(request, response, null);
+    public void postResponse(Request<?> request, Response<?> response, NetworkResponse networkResponse) {
+        postResponse(request, response, networkResponse, null);
     }
 
     @Override
-    public void postResponse(Request<?> request, Response<?> response, Runnable runnable) {
+    public void postResponse(Request<?> request, Response<?> response, NetworkResponse networkResponse, Runnable runnable) {
         request.markDelivered();
         request.addMarker("post-response");
-        mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, runnable));
+        mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, networkResponse, runnable));
     }
 
     @Override
-    public void postError(Request<?> request, VolleyError error) {
+    public void postError(Request<?> request, VolleyError error, NetworkResponse networkResponse) {
         request.addMarker("post-error");
         Response<?> response = Response.error(error);
-        mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, null));
+        mResponsePoster.execute(new ResponseDeliveryRunnable(request, response, networkResponse, null));
     }
 
     /**
@@ -82,11 +82,13 @@ public class ExecutorDelivery implements ResponseDelivery {
         private final Request mRequest;
         private final Response mResponse;
         private final Runnable mRunnable;
+        private final NetworkResponse mNetworkResponse;
 
-        public ResponseDeliveryRunnable(Request request, Response response, Runnable runnable) {
+        public ResponseDeliveryRunnable(Request request, Response response, NetworkResponse networkResponse, Runnable runnable) {
             mRequest = request;
             mResponse = response;
             mRunnable = runnable;
+            mNetworkResponse = networkResponse;
         }
 
         @SuppressWarnings("unchecked")
@@ -107,7 +109,7 @@ public class ExecutorDelivery implements ResponseDelivery {
 
             // Deliver a normal response or error, depending.
             if (mResponse.isSuccess()) {
-                mRequest.deliverResponse(mResponse.result);
+                mRequest.deliverResponse(mResponse.result, mNetworkResponse);
             } else {
                 mRequest.deliverError(mResponse.error);
             }

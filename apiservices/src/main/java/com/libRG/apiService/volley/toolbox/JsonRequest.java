@@ -24,6 +24,8 @@ import com.libRG.apiService.volley.Response.ErrorListener;
 import com.libRG.apiService.volley.Response.Listener;
 import com.libRG.apiService.volley.VolleyLog;
 
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -36,7 +38,7 @@ public abstract class JsonRequest<T> extends Request<T> {
     /**
      * Default charset for JSON request.
      */
-    protected static final String PROTOCOL_CHARSET = "utf-8";
+    public static final String PROTOCOL_CHARSET = "utf-8";
 
     /**
      * Content type for request.
@@ -81,15 +83,21 @@ public abstract class JsonRequest<T> extends Request<T> {
     }
 
     @Override
-    protected void deliverResponse(T response) {
+    protected void deliverResponse(T response, NetworkResponse networkResponse) {
         Listener<T> listener;
+        JSONObject responseHeaders = null;
         synchronized (mLock) {
             listener = mListener;
         }
+        try {
+            responseHeaders = new JSONObject(networkResponse.headers);
+        } catch (Exception ignored) {
+        }
         if (listener != null) {
-            listener.onResponse(response);
+            listener.onResponse(response, responseHeaders);
         }
     }
+
 
     @Override
     abstract protected Response<T> parseNetworkResponse(NetworkResponse response);

@@ -28,6 +28,8 @@ import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.Response;
 import com.libRG.apiService.volley.VolleyLog;
 
+import org.json.JSONObject;
+
 
 /**
  * A canned request for getting an image at a given URL and calling
@@ -39,6 +41,7 @@ public class ImageRequest extends Request<Bitmap> {
      */
     public static final int DEFAULT_IMAGE_TIMEOUT_MS = 1000;
 
+    private JSONObject responseHeaders;
     /**
      * Default number of retries for image requests
      */
@@ -171,8 +174,12 @@ public class ImageRequest extends Request<Bitmap> {
         // Serialize all decode on a global lock to reduce concurrent heap usage.
         synchronized (sDecodeLock) {
             try {
+                responseHeaders = new JSONObject(response.headers);
                 return doParse(response);
             } catch (OutOfMemoryError e) {
+                VolleyLog.e("Caught OOM for %d byte image, url=%s", response.data.length, getUrl());
+                return Response.error(new ParseError(e));
+            } catch (Exception e) {
                 VolleyLog.e("Caught OOM for %d byte image, url=%s", response.data.length, getUrl());
                 return Response.error(new ParseError(e));
             }
@@ -238,13 +245,17 @@ public class ImageRequest extends Request<Bitmap> {
     }
 
     @Override
-    protected void deliverResponse(Bitmap response) {
+    protected void deliverResponse(Bitmap response, NetworkResponse networkResponse) {
         Response.Listener<Bitmap> listener;
         synchronized (mLock) {
             listener = mListener;
         }
+        try {
+            responseHeaders = new JSONObject(networkResponse.headers);
+        } catch (Exception ignored) {
+        }
         if (listener != null) {
-            listener.onResponse(response);
+            listener.onResponse(response, responseHeaders);
         }
     }
 

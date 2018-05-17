@@ -154,13 +154,13 @@ public class CacheDispatcher extends Thread {
 
         // We have a cache hit; parse its data for delivery back to the request.
         request.addMarker("cache-hit");
-        Response<?> response = request.parseNetworkResponse(
-                new NetworkResponse(entry.data, entry.responseHeaders));
+        NetworkResponse networkResponse = new NetworkResponse(entry.data, entry.responseHeaders);
+        Response<?> response = request.parseNetworkResponse(new NetworkResponse(entry.data, entry.responseHeaders));
         request.addMarker("cache-hit-parsed");
 
         if (!entry.refreshNeeded()) {
             // Completely unexpired cache hit. Just deliver the response.
-            mDelivery.postResponse(request, response);
+            mDelivery.postResponse(request, response, networkResponse);
         } else {
             // Soft-expired cache hit. We can deliver the cached response,
             // but we need to also send the request to the network for
@@ -173,7 +173,7 @@ public class CacheDispatcher extends Thread {
             if (!mWaitingRequestManager.maybeAddToWaitingRequests(request)) {
                 // Post the intermediate response back to the user and have
                 // the delivery then forward the request along to the network.
-                mDelivery.postResponse(request, response, new Runnable() {
+                mDelivery.postResponse(request, response, networkResponse, new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -187,7 +187,7 @@ public class CacheDispatcher extends Thread {
             } else {
                 // request has been added to list of waiting requests
                 // to receive the network response from the first request once it returns.
-                mDelivery.postResponse(request, response);
+                mDelivery.postResponse(request, response, networkResponse);
             }
         }
     }
@@ -216,7 +216,7 @@ public class CacheDispatcher extends Thread {
          * Request received a valid response that can be used by other waiting requests.
          */
         @Override
-        public void onResponseReceived(Request<?> request, Response<?> response) {
+        public void onResponseReceived(Request<?> request, Response<?> response, NetworkResponse networkResponse) {
             if (response.cacheEntry == null || response.cacheEntry.isExpired()) {
                 onNoUsableResponseReceived(request);
                 return;
@@ -233,7 +233,7 @@ public class CacheDispatcher extends Thread {
                 }
                 // Process all queued up requests.
                 for (Request<?> waiting : waitingRequests) {
-                    mCacheDispatcher.mDelivery.postResponse(waiting, response);
+                    mCacheDispatcher.mDelivery.postResponse(waiting, response, networkResponse);
                 }
             }
         }

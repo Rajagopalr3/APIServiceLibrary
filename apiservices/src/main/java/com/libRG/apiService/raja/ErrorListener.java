@@ -3,6 +3,7 @@ package com.libRG.apiService.raja;
 import android.app.Dialog;
 import android.util.Log;
 
+import com.libRG.apiService.BuildConfig;
 import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.NetworkError;
 import com.libRG.apiService.volley.ParseError;
@@ -39,7 +40,8 @@ public class ErrorListener implements Response.ErrorListener {
             } else if (error instanceof TimeoutError) {
                 errorMessage += "Request Timeout";
             }
-            Log.e(requestTag, errorMessage);
+            if (BuildConfig.DEBUG)
+                Log.e(requestTag, errorMessage);
             activityReference.onError(errorMessage, requestTag);
         }
         if (dialog != null && dialog.isShowing())

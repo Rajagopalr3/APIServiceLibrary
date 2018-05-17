@@ -20,7 +20,6 @@ package com.libRG.apiService.volley.toolbox;
 import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.Request.Method;
-import com.libRG.apiService.volley.Request.Priority;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

@@ -18,7 +18,6 @@ package com.libRG.apiService.volley.toolbox;
 
 import android.content.Context;
 
-
 import com.libRG.apiService.volley.Network;
 import com.libRG.apiService.volley.RequestQueue;
 

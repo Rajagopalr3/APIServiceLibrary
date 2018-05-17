@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.libRG.apiService.BuildConfig;
 import com.libRG.apiService.R;
 import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.DefaultRetryPolicy;
@@ -43,6 +44,7 @@ public class ApiService {
     public static Dialog dialog = null;
     private static ImageLoader mImageLoader;
     private static RequestQueue requestQueue;
+    private static JSONObject responseHeaders = null;
 
     /**
      * Constructor with class specified tag name
@@ -81,6 +83,7 @@ public class ApiService {
 
     public static void JSONObjectRequest(Context mContext, int method, String url, JSONObject jsonInput,
                                          String tag, boolean showProgress) {
+
         new ApiService(mContext);
         if (nListener == null)
             return;
@@ -88,7 +91,8 @@ public class ApiService {
             dialog.show();
 
         String log = "URL : " + url + "\n" + " : Input : " + (jsonInput != null ? jsonInput : "");
-        Log.i((tag != null ? tag : ""), " : " + log);
+        if (BuildConfig.DEBUG)
+            Log.i((tag != null ? tag : ""), " : " + log);
 
         ResponseListener<JSONObject> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
         ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
@@ -100,14 +104,11 @@ public class ApiService {
                 params.put("Content-Type", "application/json; charset=utf-8");
                 return params;
             }
-
-
         };
         jObjReq.setRetryPolicy(getRetryPolicy());
         jObjReq.setShouldCache(false);
         requestSession.addToRequestQueue(jObjReq, ((Activity) mContext).getLocalClassName());
     }
-
 
     public static void JSONArrayRequest(Context mContext, int method, String url, JSONArray jsonArrayInput,
                                         String tag, boolean showProgress) {
@@ -118,7 +119,8 @@ public class ApiService {
             dialog.show();
 
         String log = "URL : " + url + "\n" + " : Input : " + (jsonArrayInput != null ? jsonArrayInput : "");
-        Log.i((tag != null ? tag : ""), " : " + log);
+        if (BuildConfig.DEBUG)
+            Log.i((tag != null ? tag : ""), " : " + log);
 
         ResponseListener<JSONArray> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
         ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
@@ -130,8 +132,6 @@ public class ApiService {
                 params.put("Content-Type", "application/json; charset=utf-8");
                 return params;
             }
-
-
         };
         jObjReq.setRetryPolicy(getRetryPolicy());
         jObjReq.setShouldCache(false);
@@ -147,7 +147,8 @@ public class ApiService {
             dialog.show();
 
         String log = "URL : " + url + "\n" + " : Input : " + (input != null ? input : "");
-        Log.i((tag != null ? tag : ""), " : " + log);
+        if (BuildConfig.DEBUG)
+            Log.i((tag != null ? tag : ""), " : " + log);
 
         ResponseListener<String> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
         ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);

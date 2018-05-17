@@ -62,7 +62,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         /**
          * Callback when a network response has been received.
          */
-        void onResponseReceived(Request<?> request, Response<?> response);
+        void onResponseReceived(Request<?> request, Response<?> response, NetworkResponse networkResponse);
 
         /**
          * Callback when request returns from network without valid response.
@@ -181,7 +181,6 @@ public abstract class Request<T> implements Comparable<Request<T>> {
         mUrl = url;
         mErrorListener = listener;
         setRetryPolicy(new DefaultRetryPolicy());
-
         mDefaultTrafficStatsTag = findDefaultTrafficStatsTag(url);
     }
 
@@ -646,7 +645,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      * @param response The parsed response returned by
      *                 {@link #parseNetworkResponse(NetworkResponse)}
      */
-    abstract protected void deliverResponse(T response);
+    abstract protected void deliverResponse(T response,NetworkResponse mNetworkResponse);
 
     /**
      * Delivers error message to the ErrorListener that the Request was
@@ -681,13 +680,13 @@ public abstract class Request<T> implements Comparable<Request<T>> {
      *
      * @param response received from the network
      */
-    /* package */ void notifyListenerResponseReceived(Response<?> response) {
+    /* package */ void notifyListenerResponseReceived(Response<?> response, NetworkResponse networkResponse) {
         NetworkRequestCompleteListener listener;
         synchronized (mLock) {
             listener = mRequestCompleteListener;
         }
         if (listener != null) {
-            listener.onResponseReceived(this, response);
+            listener.onResponseReceived(this, response,networkResponse);
         }
     }
 
