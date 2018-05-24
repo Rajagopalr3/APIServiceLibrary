@@ -124,7 +124,7 @@ APIServiceLibrary Provides variety of implementations of Request.
         
 ```
 
-#Proguard Rules
+# Proguard Rules
 
 Add below code into proguard-rules.pro file
 
