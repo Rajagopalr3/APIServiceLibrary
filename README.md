@@ -121,7 +121,17 @@ APIServiceLibrary Provides variety of implementations of Request.
         HashMap<String, String> headerParams = new HashMap<>();
         headerParams.put("key", "value");
         ApiService.setHeaders(headerParams);
-   
+        
+```
+
+#Proguard Rules
+
+Add below code into proguard-rules.pro file
+
+```
+-keep class org.apache.http.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn android.net.**
 
 ```
 
