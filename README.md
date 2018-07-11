@@ -126,32 +126,16 @@ APIServiceLibrary Provides variety of implementations of Request.
 
 # Proguard Rules
 
-Add below code into proguard-rules.pro file
+Use the following suggested ProGuard settings
 
 ```
 
--keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+-dontwarn android.net.http.**
+
 -dontwarn org.apache.http.**
--dontwarn android.net.**
-
-# # -------------------------------------------
-# #  ############### Volley confusion  ###############
-# # -------------------------------------------
--keep class com.libRG.apiService.volley.** {*;}
--keep class com.libRG.apiService.volley.toolbox.** {*;}
--keep class com.libRG.apiService.volley.Response$* { *; }
--keep class com.libRG.apiService.volley.Request$* { *; }
--keep class com.libRG.apiService.volley.RequestQueue$* { *; }
--keep class com.libRG.apiService.volley.toolbox.HurlStack$* { *; }
--keep class com.libRG.apiService.volley.toolbox.ImageLoader$* { *; }
--keep class com.libRG.apiService.raja.** {*;}
-
--keepclassmembers,allowshrinking,allowobfuscation class com.libRG.apiService.volley.NetworkDispatcher {
-    void processRequest();
-}
--keepclassmembers,allowshrinking,allowobfuscation class com.libRG.apiService.volley.CacheDispatcher {
-    void processRequest();
-}
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.google.android.gms.**
 
 ```
 
