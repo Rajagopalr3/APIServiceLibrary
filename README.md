@@ -136,6 +136,7 @@ Use the following suggested ProGuard settings
 -dontwarn org.apache.http.**
 -dontwarn android.net.http.AndroidHttpClient
 -dontwarn com.google.android.gms.**
+-keep class com.libRG.** {*;}
 
 ```
 
