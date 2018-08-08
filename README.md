@@ -5,37 +5,34 @@
   
 # Features:
 
-   1. Added custom listeners to handle the responses in easy way  
+   1. Added custom listeners to handle the responses in easy way
    2. Added Progress bar when getting response from server.(can disable by passing false in request parameter)  
    3. Success and Failure are captured in Logcats(Log.Info)  
    4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
    5. Used API TAGS to identify multiple requests from single activity.
+   6. Added ResponseHeaders params in response
+   7. File upload 
   
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
   
-# Usage
-
-Step 1:
- import apiservice module into your project and add the following code for api communication.
-
- [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.3.aar
-
-Step 2:
- Implement ActivityResponseListener on activity for getting success & failure response from server
-
-(or)
+# HOW TO USE
 
 # Gradle Depedencies :
+
+Step 1:
 
 ```
 
 dependencies {
-    implementation 'com.libRG.volley:apiservices:1.3'
+    implementation 'com.libRG.volley:apiservices:1.5'
 }
 
 
 ```
+Step 2:
+ Implement ActivityResponseListener on activity for getting success & failure response from server
+
 
 # Implementation Steps in Activity File
 
@@ -64,15 +61,17 @@ public class MainActivity extends AppCompatActivity implements ActivityResponseL
     
   public void setImage(String imageURL, ImageView imageView) {
   
-        ApiService.getImageLoader(this).get(imageURL, ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher_round,                                                                                                  R.mipmap.ic_launcher));
+        ApiService.getImageLoader(this).get(imageURL, ImageLoader.getImageListener(imageView, R.mipmap.ic_launcher_round,R.mipmap.ic_launcher));
  }
     
     
   @Override
-    public <T> void onResponse(T response, String tagName) {
+    public <T> void onResponse(T response, String tagName, JSONObject responseHeaders) {//responseHeaders is used to catch the network header params like auth key and value
+        
         if (tagName.equals("GET_ADDRESS")) {
         Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
         }
+        
     }
 
     @Override
@@ -112,13 +111,43 @@ APIServiceLibrary Provides variety of implementations of Request.
    5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
    6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
    
+ # File upload:
+ 
+   ApiService.UploadFile(this, 1, url, input_params, file, "file_key", "tag_name", true);
+   
+   1. this           -->   It is used receive the callback from server response.(passing context to intialize the request)
+   2. 0 or 1         -->   This is request type either POST or GET etc.(should pass integer values)
+   3. url            -->   This is request url of server
+   4.input_params    -->   hashmap input params
+   5.file            -->   File to upload (if multiple files use Hashmap<String,File> list)
+   6 file_key        -->   Filekey param
+   7.tag_name        -->   This is Request TAG to identify and validate the specific response from server
+   8.true            -->   This is used to show progress bar when getting data from server.(pass false if not required)
+   
+   
+
    
  # Setting authentication tokens for request - set this code at once
  
         HashMap<String, String> headerParams = new HashMap<>();
         headerParams.put("key", "value");
         ApiService.setHeaders(headerParams);
-   
+        
+```
+
+# Proguard Rules
+
+Use the following suggested ProGuard settings
+
+```
+
+-keep class android.net.http.** { *; }
+-dontwarn android.net.http.**
+
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.AndroidHttpClient
+-dontwarn com.google.android.gms.**
+-keep class com.libRG.** {*;}
 
 ```
 
@@ -143,6 +172,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+ 
  
 ```  
 
