@@ -52,7 +52,6 @@ public class JsonObjectRequest extends JsonRequest<JSONObject> {
     /**
      * Constructor which defaults to <code>GET</code> if <code>jsonRequest</code> is
      * <code>null</code>, <code>POST</code> otherwise.
-     *
      */
     public JsonObjectRequest(String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener,
                              Response.ErrorListener errorListener) {

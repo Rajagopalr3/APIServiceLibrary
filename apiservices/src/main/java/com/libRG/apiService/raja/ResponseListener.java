@@ -1,5 +1,6 @@
 package com.libRG.apiService.raja;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
 
@@ -22,12 +23,12 @@ public class ResponseListener<T> implements Response.Listener<T> {
 
     @Override
     public void onResponse(T result, JSONObject responseHeaders) {
+        if (dialog != null && dialog.isShowing() && !((Activity) activityReference).isFinishing())
+            dialog.dismiss();
         if (BuildConfig.DEBUG)
             Log.i(requestTag, result != null ? result.toString() : "null");
         if (activityReference != null)
             activityReference.onResponse(result, requestTag, responseHeaders);
-        if (dialog != null && dialog.isShowing())
-            dialog.dismiss();
     }
 
 }

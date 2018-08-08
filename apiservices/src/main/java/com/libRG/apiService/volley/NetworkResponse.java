@@ -30,52 +30,56 @@ public class NetworkResponse {
 
     /**
      * Creates a new network response.
-     * @param statusCode the HTTP status code
-     * @param data Response body
-     * @param headers Headers returned with this response, or null for none
-     * @param notModified True if the server returned a 304 and the data was already in cache
+     *
+     * @param statusCode    the HTTP status code
+     * @param data          Response body
+     * @param headers       Headers returned with this response, or null for none
+     * @param notModified   True if the server returned a 304 and the data was already in cache
      * @param networkTimeMs Round-trip network time to receive network response
      * @deprecated see {@link #NetworkResponse(int, byte[], boolean, long, List)}. This constructor
-     *             cannot handle server responses containing multiple headers with the same name.
-     *             This constructor may be removed in a future release of Volley.
+     * cannot handle server responses containing multiple headers with the same name.
+     * This constructor may be removed in a future release of Volley.
      */
     @Deprecated
     public NetworkResponse(int statusCode, byte[] data, Map<String, String> headers,
-            boolean notModified, long networkTimeMs) {
+                           boolean notModified, long networkTimeMs) {
         this(statusCode, data, headers, toAllHeaderList(headers), notModified, networkTimeMs);
     }
 
     /**
      * Creates a new network response.
-     * @param statusCode the HTTP status code
-     * @param data Response body
-     * @param notModified True if the server returned a 304 and the data was already in cache
+     *
+     * @param statusCode    the HTTP status code
+     * @param data          Response body
+     * @param notModified   True if the server returned a 304 and the data was already in cache
      * @param networkTimeMs Round-trip network time to receive network response
-     * @param allHeaders All headers returned with this response, or null for none
+     * @param allHeaders    All headers returned with this response, or null for none
      */
     public NetworkResponse(int statusCode, byte[] data, boolean notModified, long networkTimeMs,
-            List<Header> allHeaders) {
+                           List<Header> allHeaders) {
         this(statusCode, data, toHeaderMap(allHeaders), allHeaders, notModified, networkTimeMs);
     }
 
     /**
      * Creates a new network response.
-     * @param statusCode the HTTP status code
-     * @param data Response body
-     * @param headers Headers returned with this response, or null for none
+     *
+     * @param statusCode  the HTTP status code
+     * @param data        Response body
+     * @param headers     Headers returned with this response, or null for none
      * @param notModified True if the server returned a 304 and the data was already in cache
      * @deprecated see {@link #NetworkResponse(int, byte[], boolean, long, List)}. This constructor
-     *             cannot handle server responses containing multiple headers with the same name.
-     *             This constructor may be removed in a future release of Volley.
+     * cannot handle server responses containing multiple headers with the same name.
+     * This constructor may be removed in a future release of Volley.
      */
     @Deprecated
     public NetworkResponse(int statusCode, byte[] data, Map<String, String> headers,
-            boolean notModified) {
+                           boolean notModified) {
         this(statusCode, data, headers, notModified, 0);
     }
 
     /**
      * Creates a new network response for an OK response with no headers.
+     *
      * @param data Response body
      */
     public NetworkResponse(byte[] data) {
@@ -84,11 +88,12 @@ public class NetworkResponse {
 
     /**
      * Creates a new network response for an OK response.
-     * @param data Response body
+     *
+     * @param data    Response body
      * @param headers Headers returned with this response, or null for none
      * @deprecated see {@link #NetworkResponse(int, byte[], boolean, long, List)}. This constructor
-     *             cannot handle server responses containing multiple headers with the same name.
-     *             This constructor may be removed in a future release of Volley.
+     * cannot handle server responses containing multiple headers with the same name.
+     * This constructor may be removed in a future release of Volley.
      */
     @Deprecated
     public NetworkResponse(byte[] data, Map<String, String> headers) {
@@ -109,30 +114,40 @@ public class NetworkResponse {
         this.networkTimeMs = networkTimeMs;
     }
 
-    /** The HTTP status code. */
+    /**
+     * The HTTP status code.
+     */
     public final int statusCode;
 
-    /** Raw data from this response. */
+    /**
+     * Raw data from this response.
+     */
     public final byte[] data;
 
     /**
      * Response headers.
-     *
+     * <p>
      * <p>This map is case-insensitive. It should not be mutated directly.
-     *
+     * <p>
      * <p>Note that if the server returns two headers with the same (case-insensitive) name, this
      * map will only contain the last one. Use {@link #allHeaders} to inspect all headers returned
      * by the server.
      */
     public final Map<String, String> headers;
 
-    /** All response headers. Must not be mutated directly. */
+    /**
+     * All response headers. Must not be mutated directly.
+     */
     public final List<Header> allHeaders;
 
-    /** True if the server returned a 304 (Not Modified). */
+    /**
+     * True if the server returned a 304 (Not Modified).
+     */
     public final boolean notModified;
 
-    /** Network roundtrip time in milliseconds. */
+    /**
+     * Network roundtrip time in milliseconds.
+     */
     public final long networkTimeMs;
 
     private static Map<String, String> toHeaderMap(List<Header> allHeaders) {

@@ -82,7 +82,8 @@ public class StringRequest extends Request<String> {
         Listener<String> listener;
         synchronized (mLock) {
             listener = mListener;
-        } try {
+        }
+        try {
             responseHeaders = new JSONObject(networkResponse.headers);
         } catch (Exception ignored) {
         }

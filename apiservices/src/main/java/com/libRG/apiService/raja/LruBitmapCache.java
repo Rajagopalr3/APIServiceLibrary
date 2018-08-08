@@ -8,6 +8,7 @@ import com.libRG.apiService.volley.toolbox.ImageLoader;
 
 public class LruBitmapCache extends LruCache<String, Bitmap> implements
         ImageLoader.ImageCache {
+
     private static int getDefaultLruCacheSize() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         return maxMemory / 8;

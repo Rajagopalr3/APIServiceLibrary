@@ -1,5 +1,6 @@
 package com.libRG.apiService.raja;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
 
@@ -27,6 +28,8 @@ public class ErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        if (dialog != null && dialog.isShowing() && !((Activity) activityReference).isFinishing())
+            dialog.dismiss();
         if (activityReference != null) {
             String errorMessage = "";
             if (error instanceof NetworkError) {
@@ -39,14 +42,13 @@ public class ErrorListener implements Response.ErrorListener {
                 errorMessage += "ParseError ";
             } else if (error instanceof TimeoutError) {
                 errorMessage += "Request Timeout";
+            } else {
+                errorMessage += error.getMessage();
             }
             if (BuildConfig.DEBUG)
                 Log.e(requestTag, errorMessage);
             activityReference.onError(errorMessage, requestTag);
         }
-        if (dialog != null && dialog.isShowing())
-            dialog.dismiss();
-
     }
 
 

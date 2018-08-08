@@ -1,6 +1,5 @@
 package com.libRG.apiService.raja;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -10,14 +9,9 @@ import com.libRG.apiService.volley.toolbox.Volley;
 
 public class RequestManager {
 
-    // An Singleton instance of the class for accessing in other places
-    @SuppressLint("StaticFieldLeak")
     private static RequestManager reqInstance;
-
     private String TAG_NAME = RequestManager.class.getSimpleName();
-
     private Context reqContext;
-
     // Request Queue  of volley
     private RequestQueue requestQueue;
 
@@ -30,7 +24,7 @@ public class RequestManager {
      */
     public static synchronized RequestManager getInstance(Context context) {
         if (reqInstance == null) {
-            reqInstance = new RequestManager(context);
+            reqInstance = new RequestManager(context.getApplicationContext());
         }
         return reqInstance;
     }

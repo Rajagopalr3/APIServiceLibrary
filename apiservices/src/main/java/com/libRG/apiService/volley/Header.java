@@ -17,7 +17,9 @@ package com.libRG.apiService.volley;
 
 import android.text.TextUtils;
 
-/** An HTTP header. */
+/**
+ * An HTTP header.
+ */
 public final class Header {
     private final String mName;
     private final String mValue;

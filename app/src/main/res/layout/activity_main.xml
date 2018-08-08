@@ -16,13 +16,6 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Default ImageView" />
-
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="wrap_content"
@@ -33,16 +26,10 @@
                 android:src="@mipmap/ic_launcher" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Circular ImageView" />
-
             <com.libRG.apiService.volley.toolbox.CircularImageView
                 android:id="@+id/img1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:src="@mipmap/ic_launcher"
@@ -55,14 +42,39 @@
 
     </ScrollView>
 
-
-    <Button
-        android:id="@+id/btn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:onClick="getAddress"
-        android:text="GET ADDRESS - (test api hit)" />
+        android:orientation="horizontal">
 
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:onClick="getAddress"
+            android:text="GET ADDRESS - (String Req)" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="getAddress"
+            android:text="GET ADDRESS - (JSON Req)" />
+
+        <Button
+            android:id="@+id/btn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:onClick="getAddress"
+            android:text="GET ADDRESS - (Array Req)" />
+
+    </LinearLayout>
 
 </RelativeLayout>

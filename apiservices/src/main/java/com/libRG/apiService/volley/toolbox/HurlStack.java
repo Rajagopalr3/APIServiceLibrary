@@ -253,7 +253,7 @@ public class HurlStack extends BaseHttpStack {
     }
 
     private static void addBody(HttpURLConnection connection, Request<?> request, byte[] body)
-            throws IOException, AuthFailureError {
+            throws IOException {
         // Prepare output. There is no need to set Content-Length explicitly,
         // since this is handled by HttpURLConnection using the size of the prepared
         // output stream.

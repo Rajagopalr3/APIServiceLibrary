@@ -255,7 +255,7 @@ public class RequestQueue {
      * has finished.
      */
     @SuppressWarnings("unchecked")
-   public  <T> void finish(Request<T> request) {
+    public <T> void finish(Request<T> request) {
         // Remove from the set of requests currently being processed.
         synchronized (mCurrentRequests) {
             mCurrentRequests.remove(request);

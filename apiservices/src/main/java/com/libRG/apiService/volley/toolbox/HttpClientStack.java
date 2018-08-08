@@ -162,7 +162,7 @@ public class HttpClientStack implements HttpStack {
      * <p>
      * <p>Overwrite in subclasses to augment the request.</p>
      */
-    protected void onPrepareRequest(HttpUriRequest request) throws IOException {
+    protected void onPrepareRequest(HttpUriRequest request) {
         // Nothing.
     }
 

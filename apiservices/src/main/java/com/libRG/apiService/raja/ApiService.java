@@ -1,6 +1,5 @@
 package com.libRG.apiService.raja;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,8 +11,8 @@ import android.widget.Toast;
 
 import com.libRG.apiService.BuildConfig;
 import com.libRG.apiService.R;
-import com.libRG.apiService.volley.AuthFailureError;
 import com.libRG.apiService.volley.DefaultRetryPolicy;
+import com.libRG.apiService.volley.MultipartRequest;
 import com.libRG.apiService.volley.Request;
 import com.libRG.apiService.volley.RequestQueue;
 import com.libRG.apiService.volley.RetryPolicy;
@@ -26,6 +25,7 @@ import com.libRG.apiService.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -34,27 +34,30 @@ import java.util.Map;
 /**
  * Helper class for communicating with the server using api call
  */
-public class ApiService {
+public class ApiService<T> {
 
-    @SuppressLint("StaticFieldLeak")
-    private volatile static RequestManager requestSession;
     public static int SOCKET_TIMEOUT = 20000; //20 seconds
     private static ActivityResponseListener nListener;
     private static HashMap<String, String> params;
-    public static Dialog dialog = null;
+    private static final int JSON = 0;
+    private static final int JSON_ARRAY = 1;
+    private static final int STRING = 2;
+    private Dialog dialog = null;
     private static ImageLoader mImageLoader;
     private static RequestQueue requestQueue;
-    private static JSONObject responseHeaders = null;
+    private static ResponseListener<JSONObject> jsonListener;
+    private static ResponseListener<JSONArray> jsonArrayListener;
+    private static ResponseListener<String> stringListener;
+    private static ErrorListener errorListener;
 
     /**
      * Constructor with class specified tag name
      **/
-    @SuppressLint("LongLogTag")
-    private ApiService(Context mContext) {
+    private ApiService(Context mContext, String tag, boolean showProgress, int requestType) {
         try {
-            initialize(mContext);
             dialog = showCustomDialog(mContext);
             nListener = (ActivityResponseListener) mContext;
+            initListeners(mContext, tag, showProgress, requestType);
         } catch (Exception e) {
             Log.e("APIService", e.getMessage());
             if (e.getMessage().contains("com.libRG.apiService.raja.ActivityResponseListener")) {
@@ -63,42 +66,19 @@ public class ApiService {
         }
     }
 
-    public static ImageLoader getImageLoader(Context context) {
-        if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-
-        if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(requestQueue, new LruBitmapCache());
-        }
-        return mImageLoader;
-    }
-
     /**
-     * Initialize the RequestManager instance
+     * This method is used to make json object request in android
      */
-
-    private void initialize(Context mContext) {
-        requestSession = RequestManager.getInstance(mContext.getApplicationContext());
-    }
-
-    public static void JSONObjectRequest(Context mContext, int method, String url, JSONObject jsonInput,
-                                         String tag, boolean showProgress) {
-
-        new ApiService(mContext);
+    public static void JSONObjectRequest(Context mContext, int method, String url, JSONObject jsonInput, String tag, boolean showProgress) {
+        new ApiService(mContext, tag, showProgress, JSON);
         if (nListener == null)
             return;
-        if (showProgress && !((Activity) mContext).isFinishing() && dialog != null)
-            dialog.show();
-
         String log = "URL : " + url + "\n" + " : Input : " + (jsonInput != null ? jsonInput : "");
         if (BuildConfig.DEBUG)
             Log.i((tag != null ? tag : ""), " : " + log);
-
-        ResponseListener<JSONObject> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
-        ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
-        JsonObjectRequest jObjReq = new JsonObjectRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, jsonInput, listener, errorListener) {
+        JsonObjectRequest jObjReq = new JsonObjectRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, jsonInput, jsonListener, errorListener) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 if (params == null)
                     params = new HashMap<>();
                 params.put("Content-Type", "application/json; charset=utf-8");
@@ -107,26 +87,22 @@ public class ApiService {
         };
         jObjReq.setRetryPolicy(getRetryPolicy());
         jObjReq.setShouldCache(false);
-        requestSession.addToRequestQueue(jObjReq, ((Activity) mContext).getLocalClassName());
+        RequestManager.getInstance(mContext).addToRequestQueue(jObjReq, ((Activity) mContext).getLocalClassName());
     }
 
-    public static void JSONArrayRequest(Context mContext, int method, String url, JSONArray jsonArrayInput,
-                                        String tag, boolean showProgress) {
-        new ApiService(mContext);
+    /**
+     * This is used to make json array request in android.
+     */
+    public static void JSONArrayRequest(Context mContext, int method, String url, JSONArray jsonArrayInput, String tag, boolean showProgress) {
+        new ApiService(mContext, tag, showProgress, JSON_ARRAY);
         if (nListener == null)
             return;
-        if (showProgress && !((Activity) mContext).isFinishing() && dialog != null)
-            dialog.show();
-
         String log = "URL : " + url + "\n" + " : Input : " + (jsonArrayInput != null ? jsonArrayInput : "");
         if (BuildConfig.DEBUG)
             Log.i((tag != null ? tag : ""), " : " + log);
-
-        ResponseListener<JSONArray> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
-        ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
-        JsonArrayRequest jObjReq = new JsonArrayRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, jsonArrayInput, listener, errorListener) {
+        JsonArrayRequest jObjReq = new JsonArrayRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, jsonArrayInput, jsonArrayListener, errorListener) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 if (params == null)
                     params = new HashMap<>();
                 params.put("Content-Type", "application/json; charset=utf-8");
@@ -135,26 +111,22 @@ public class ApiService {
         };
         jObjReq.setRetryPolicy(getRetryPolicy());
         jObjReq.setShouldCache(false);
-        requestSession.addToRequestQueue(jObjReq, ((Activity) mContext).getLocalClassName());
+        RequestManager.getInstance(mContext).addToRequestQueue(jObjReq, ((Activity) mContext).getLocalClassName());
     }
 
-    public static void StringRequest(Context mContext, int method, String url, final HashMap<String, String> input,
-                                     String tag, boolean showProgress) {
-        new ApiService(mContext);
+    /**
+     * This is used make String request in android
+     */
+    public static void StringRequest(Context mContext, int method, String url, final HashMap<String, String> input, String tag, boolean showProgress) {
+        new ApiService(mContext, tag, showProgress, STRING);
         if (nListener == null)
             return;
-        if (showProgress && !((Activity) mContext).isFinishing() && dialog != null)
-            dialog.show();
-
         String log = "URL : " + url + "\n" + " : Input : " + (input != null ? input : "");
         if (BuildConfig.DEBUG)
             Log.i((tag != null ? tag : ""), " : " + log);
-
-        ResponseListener<String> listener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
-        ErrorListener errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
-        StringRequest request = new StringRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, listener, errorListener) {
+        StringRequest request = new StringRequest(method == 1 ? Request.Method.POST : Request.Method.GET, url, stringListener, errorListener) {
             @Override
-            public byte[] getBody() throws AuthFailureError {
+            public byte[] getBody() {
                 if (input != null && input.size() > 0) {
                     return encodeParameters(input, getParamsEncoding());
                 }
@@ -162,7 +134,7 @@ public class ApiService {
             }
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 if (params == null)
                     params = new HashMap<>();
                 params.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
@@ -172,13 +144,39 @@ public class ApiService {
 
         request.setRetryPolicy(getRetryPolicy());
         request.setShouldCache(false);
-        requestSession.addToRequestQueue(request, ((Activity) mContext).getLocalClassName());
+        RequestManager.getInstance(mContext).addToRequestQueue(request, ((Activity) mContext).getLocalClassName());
     }
 
+    /**
+     * This method is used to upload the multiple files to the server
+     */
+    public static void UploadFile(Context context, int method, String url, final HashMap<String, String> input, final HashMap<String, File> fileList, String tag, boolean showProgress) {
+        new ApiService(context, tag, showProgress, STRING);
+        if (nListener == null)
+            return;
+        new MultipartRequest(method, input, fileList, stringListener, errorListener).execute(url);
+    }
+
+    /**
+     * This method is used to upload the single file to the server
+     */
+    public static void UploadFile(Context context, int method, String url, final HashMap<String, String> input, File file, String fileKey, String tag, boolean showProgress) {
+        new ApiService(context, tag, showProgress, STRING);
+        if (nListener == null)
+            return;
+        new MultipartRequest(method, input, file, fileKey, stringListener, errorListener).execute(url);
+    }
+
+    /**
+     * This method is used to set the header params
+     */
     public static void setHeaders(HashMap<String, String> param) {
         params = param;
     }
 
+    /**
+     * This method is used to get the header params
+     */
     public static HashMap<String, String> getHeaders() {
         return params;
     }
@@ -186,7 +184,7 @@ public class ApiService {
     /**
      * Method give the default retryPolicy
      */
-    public static RetryPolicy getRetryPolicy() {
+    private static RetryPolicy getRetryPolicy() {
         return new DefaultRetryPolicy(SOCKET_TIMEOUT, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     }
 
@@ -197,6 +195,9 @@ public class ApiService {
         SOCKET_TIMEOUT = milliseconds;
     }
 
+    /**
+     * It is used to encode the input params
+     */
     private static byte[] encodeParameters(Map<String, String> params, String paramsEncoding) {
         StringBuilder encodedParams = new StringBuilder();
         try {
@@ -212,25 +213,59 @@ public class ApiService {
         }
     }
 
-    public Dialog showCustomDialog(final Context context) {
-        final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent);
+    /**
+     * This is used to show custom dialog when hitting the api.
+     */
+    private Dialog showCustomDialog(final Context context) {
+        final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.progress_dialog);
-
+        if (dialog.getWindow() != null)
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-
             @Override
-            public boolean onKey(DialogInterface arg0, int keyCode,
-                                 KeyEvent event) {
-                // TODO Auto-generated method stub
+            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     dialog.dismiss();
-                    requestSession.cancelPendingRequest(((Activity) context).getLocalClassName());
+                    RequestManager.getInstance(context).cancelPendingRequest(((Activity) context).getLocalClassName());
                 }
                 return true;
             }
         });
         return dialog;
+    }
+
+    /**
+     * This is used to init the custom listeners like response and success listeners.
+     */
+    private void initListeners(Context mContext, String tag, boolean showProgress, int requestType) {
+        switch (requestType) {
+            case JSON:
+                jsonListener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
+                break;
+            case JSON_ARRAY:
+                jsonArrayListener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
+                break;
+            case STRING:
+                stringListener = new ResponseListener<>(nListener, tag != null ? tag : "", dialog);
+                break;
+        }
+        errorListener = new ErrorListener(nListener, tag != null ? tag : "", dialog);
+        if (showProgress && !((Activity) mContext).isFinishing() && dialog != null)
+            dialog.show();
+    }
+
+    /**
+     * This is used to get the image loader instance to show the image.
+     */
+    public static ImageLoader getImageLoader(Context context) {
+        if (requestQueue == null)
+            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+
+        if (mImageLoader == null) {
+            mImageLoader = new ImageLoader(requestQueue, new LruBitmapCache());
+        }
+        return mImageLoader;
     }
 }
