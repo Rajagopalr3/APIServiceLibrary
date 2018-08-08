@@ -18,9 +18,10 @@
   
 # HOW TO USE
 
-# Gradle Depedencies :
 
 Step 1:
+
+Add this to app gradle
 
 ```
 
@@ -90,7 +91,7 @@ APIServiceLibrary Provides variety of implementations of Request.
 1. StringRequest  
 2. JsonObjectRequest  
 3. JsonArrayRequest
-3. MultiPartRequest  
+3. MultiPartRequest for file upoload  
 4. ImageRequest  
 
 # Explanation of code:
@@ -111,7 +112,7 @@ APIServiceLibrary Provides variety of implementations of Request.
    5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
    6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
    
- # File upload:
+ **File upload:**
  
    ApiService.UploadFile(this, 1, url, input_params, file, "file_key", "tag_name", true);
    
@@ -153,7 +154,7 @@ Use the following suggested ProGuard settings
 
 # References taken from Google's Volley Library
    I have optimized the API request code to reduce the code implementation for api call. I used volley for server commmunication.
-   Thanks to Volley
+   Thanks to Volley*__*
 
  # License
  
