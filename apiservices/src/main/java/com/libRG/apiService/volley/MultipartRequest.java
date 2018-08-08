@@ -86,7 +86,8 @@ public class MultipartRequest extends AsyncTask<String, String, String> {
             if (ApiService.getHeaders() != null && ApiService.getHeaders().size() > 0) {
                 for (Map.Entry<String, String> entry : ApiService.getHeaders().entrySet()) {
                     if (entry.getKey() != null && entry.getValue() != null) {
-                        httpConn.setRequestProperty(entry.getKey(), entry.getValue());
+                        if (!entry.getKey().equals("Content-Type"))
+                            httpConn.setRequestProperty(entry.getKey(), entry.getValue());
                     }
                 }
             }
