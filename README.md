@@ -15,28 +15,23 @@
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
   
-# Usage
-
-Step 1:
- import apiservice module into your project and add the following code for api communication.
-
- [Donwload module])https://github.com/Rajagopalr3/APIServiceLibrary/blob/master/apiservices-1.3.aar
-
-Step 2:
- Implement ActivityResponseListener on activity for getting success & failure response from server
-
-(or)
+# HOW TO USE
 
 # Gradle Depedencies :
+
+Step 1:
 
 ```
 
 dependencies {
-    implementation 'com.libRG.volley:apiservices:1.4'
+    implementation 'com.libRG.volley:apiservices:1.5'
 }
 
 
 ```
+Step 2:
+ Implement ActivityResponseListener on activity for getting success & failure response from server
+
 
 # Implementation Steps in Activity File
 
@@ -115,6 +110,21 @@ APIServiceLibrary Provides variety of implementations of Request.
    5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
    6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
    
+ # File upload:
+ 
+   ApiService.UploadFile(this, 1, url, input_params, file, "file_key", "tag_name", true);
+   
+   1. this           -->   It is used receive the callback from server response.(passing context to intialize the request)
+   2. 0 or 1         -->   This is request type either POST or GET etc.(should pass integer values)
+   3. url            -->   This is request url of server
+   4.input_params    -->   hashmap input params
+   5.file            -->   File to upload (if multiple files use Hashmap<String,File> list)
+   6 file_key        -->   Filekey param
+   7.tag_name        -->   This is Request TAG to identify and validate the specific response from server
+   8.true            -->   This is used to show progress bar when getting data from server.(pass false if not required)
+   
+   
+
    
  # Setting authentication tokens for request - set this code at once
  
