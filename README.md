@@ -11,6 +11,7 @@
    4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
    5. Used API TAGS to identify multiple requests from single activity.
    6. Added ResponseHeaders params in response
+   7. File upload 
   
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
