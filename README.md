@@ -1,16 +1,16 @@
 # Minimized API Service Library
-   This is a optimized custom library for server communication. References taken from Official VOLLEY library.
+   This is a optimized custom library for server communication. References taken from VOLLEY library.
    We can reduce the code for making api calls when using this library. All references are taken from Google's Official Volley.
    
   
 # Features:
 
    1. Added custom listeners to handle the responses in easy way
-   2. Added Progress bar when getting response from server.(can disable by passing false in request parameter)  
-   3. Success and Failure are captured in Logcats(Log.Info)  
-   4. Circular imageview implemented in NetworkImageView.(NetworkImageView is from volley)
-   5. Used API TAGS to identify multiple requests from single activity.
-   6. Added ResponseHeaders params in response
+   2. Added Progress bar when getting response from server.(can disable by passing false in request)  
+   3. Success and Failure response are captured in Logcats(Log.Info)  
+   4. Circular imageview
+   5. Used API TAGS to identify multiple requests on single activity.
+   6. Added ResponseHeaders in response
    7. File upload 
   
   
@@ -26,7 +26,7 @@ Add this to app gradle
 ```
 
 dependencies {
-    implementation 'com.libRG.volley:apiservices:1.5'
+    implementation 'com.libRG.volley:apiservices:1.6'
 }
 
 
@@ -35,7 +35,7 @@ Step 2:
  Implement ActivityResponseListener on activity for getting success & failure response from server
 
 
-# Implementation Steps in Activity File
+# Implementation Steps in Activity
 
 ```
 
@@ -91,8 +91,8 @@ APIServiceLibrary Provides variety of implementations of Request.
 1. StringRequest  
 2. JsonObjectRequest  
 3. JsonArrayRequest
-3. MultiPartRequest for file upoload  
-4. ImageRequest  
+4. File Upload
+5. ImageRequest  
 
 # Explanation of code:
 
@@ -128,11 +128,13 @@ APIServiceLibrary Provides variety of implementations of Request.
    
 
    
- # Setting authentication tokens for request - set this code at once
+ # Setting authentication tokens for request
  
         HashMap<String, String> headerParams = new HashMap<>();
         headerParams.put("key", "value");
         ApiService.setHeaders(headerParams);
+        
+   Note - set these headers whenever lauch the app.     
         
 ```
 
