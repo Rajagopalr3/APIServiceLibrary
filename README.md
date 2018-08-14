@@ -134,7 +134,7 @@ APIServiceLibrary Provides variety of implementations of Request.
         headerParams.put("key", "value");
         ApiService.setHeaders(headerParams);
         
-   Note - set these headers whenever lauch the app.     
+   Note - set these headers to appcontrollers whenever lauch the app.     
         
 ```
 
