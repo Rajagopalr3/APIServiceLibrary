@@ -18,7 +18,7 @@
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)   
   
-  <a href='https://bintray.com/rajagopalr3/ApiService/apiservices?source=watch' alt='Get automatic notifications about new "apiservices" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_greyscale.png'></a><a href='https://bintray.com/rajagopalr3/ApiService/apiservices?source=watch' alt='Get automatic notifications about new "apiservices" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_greyscale.png'></a>
+ <a href='https://bintray.com/rajagopalr3/ApiService/apiservices?source=watch' alt='Get automatic notifications about new "apiservices" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_color.png'></a>
   
 # HOW TO USE
 
