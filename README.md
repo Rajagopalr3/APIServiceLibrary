@@ -12,6 +12,8 @@
    5. Used API TAGS to identify multiple requests on single activity.
    6. Added ResponseHeaders in response
    7. File upload 
+   
+   <a href='https://bintray.com/rajagopalr3/ApiService/apiservices/_latestVersion'><img src='https://api.bintray.com/packages/rajagopalr3/ApiService/apiservices/images/download.svg'></a>
   
   
   ![Screenshot](screenshot_three.png)                  ![Screenshot](screenshot_one.png)               
