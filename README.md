@@ -113,7 +113,7 @@ APIServiceLibrary Provides variety of implementations of Request.
    3. url            -->   This is request url of server
    4. input          -->   Pass request input parameters based on method types(GET or POST, if GET method pass null)
                            (if JSON request pass json input else pass formdata)
-   5. GET_ADDRESS    -->   This is Request TAG to identify and validate the specific response from server
+   5. GET_ADDRESS    -->   This is Request TAG to identify and parse the specific response from server
    6. true           -->   This is used to show progress bar when getting data from server.(pass false if not required)
    
  **File upload:**
