@@ -30,7 +30,7 @@ Add this to app gradle
 ```
 
 dependencies {
-    implementation 'com.libRG.volley:apiservices:1.6'
+    implementation 'com.libRG.volley:apiservices:1.7'
 }
 
 
@@ -120,11 +120,13 @@ APIServiceLibrary Provides variety of implementations of Request.
  
    ApiService.UploadFile(this, 1, url, input_params, file, "file_key", "tag_name", true);
    
+   ApiService.UploadFile(this, 1, url, input_params, HashMap<String, File> fileList, "file_key", "tag_name", true);
+   
    1. this           -->   It is used receive the callback from server response.(passing context to intialize the request)
    2. 0 or 1         -->   This is request type either POST or GET etc.(should pass integer values)
    3. url            -->   This is request url of server
    4.input_params    -->   hashmap input params
-   5.file            -->   File to upload (if multiple files use Hashmap<String,File> list)
+   5.file            -->   File to upload (if multiple files use Hashmap<String,File> fileList)
    6 file_key        -->   Filekey param
    7.tag_name        -->   This is Request TAG to identify and validate the specific response from server
    8.true            -->   This is used to show progress bar when getting data from server.(pass false if not required)
@@ -138,7 +140,13 @@ APIServiceLibrary Provides variety of implementations of Request.
         headerParams.put("key", "value");
         ApiService.setHeaders(headerParams);
         
-   Note - set these headers to appcontrollers whenever lauch the app.     
+   Note - set these headers to appcontrollers whenever lauch the app.  
+   
+ # Set custom progress dialog 
+   
+    ApiService.setCustomDialogView(R.layout.progress_bar_dialog);
+    ApiService.setCancellable(true);
+ 
         
 ```
 
